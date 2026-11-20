@@ -60,7 +60,7 @@ def main() -> None:
     print("[PASS] Shared Plotly chart builders verified.")
 
     # Verify syntax compilation for all Python modules
-    for filename in ("train_model.py", "faculty_content.py", "app.py", "dash_app.py"):
+    for filename in ("train_model.py", "faculty_content.py", "ui_html.py", "app.py", "dash_app.py"):
         file_path = Path(BASE_DIR) / filename
         py_compile.compile(str(file_path), doraise=True)
     print("[PASS] Syntax compilation passed for all app modules.")
@@ -69,7 +69,7 @@ def main() -> None:
     dash_mod = importlib.import_module("dash_app")
     assert hasattr(dash_mod, "server")
     out = dash_mod.update_prediction(*[presets["passing"][c] for c in FEATURE_COLS], "Test", "Class")
-    assert len(out) == 3 and "on-track" in out[0].className
+    assert len(out) == 3 and "on-track" in out[0].children.children
     print("[PASS] dash_app imported cleanly and update_prediction callback executed.")
 
     # Verify Streamlit app import (and AppTest if streamlit is installed)
